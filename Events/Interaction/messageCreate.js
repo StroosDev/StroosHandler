@@ -9,7 +9,6 @@ module.exports = {
     async execute(message, client) {
         if (message.author.bot) return;
         if (!message.content.toLowerCase().startsWith(prefix)) return;
-        if (!message.member) message.member = await message.guild.members.fetch(message.member.id);
         if (!message.guild) return;
         const args = message.content.slice(prefix.length).trim().split(/ +/g);
         const cmd = args.shift().toLowerCase();
@@ -19,8 +18,8 @@ module.exports = {
             if (command.timeout) {
                 if (Timeout.has(`${message.author.id}${command.name}`)) {
                     const embed = new MessageEmbed()
-                    .setTitle('You are in timeout!')
-                    .setDescription(`:x: You need to wait **${humanizeDuration(command.timeout, { round: true })}** to use command again`)
+                    .setTitle('You are timeouted!')
+                    .setDescription(`You need to wait **${humanizeDuration(command.timeout, { round: true })}** to be able to run this command again`)
                     .setColor('#ff0000')
                     return message.channel.send({ embeds: [embed] })
                 } else {
